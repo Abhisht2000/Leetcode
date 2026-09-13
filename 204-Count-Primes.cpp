@@ -1,26 +1,26 @@
 class Solution {
 public:
     int countPrimes(int n) {
-        
-        
         if(n<3) return 0;
-        vector<int>dp(n,0);
-        //if(n==3) return dp[2]=1;
-        for(int i=2;i<n;i++){
-            bool t=false;
-            for(int j=2;j<i;j++){
-                if(i%j==0){
-                    t=true;
-                    break;
+        vector<bool>dp(n,true);
+        dp[0]=dp[1]=false;
+        for(int i=4;i<n;i+=2){
+            dp[i]=false;
+        }
+        for(int i=3;i*i<n;i+=2){
+            if(dp[i]){
+                for( int j=i*i;j<n;j+=i*2){
+                    dp[j]=false;
                 }
             }
-            if(t){
-                dp[i]=dp[i-1];
-            }
-            else{
-                dp[i]=dp[i-1]+1;
+        }
+        int ans=1;
+        for(int i=3;i<n;i++){
+            if(dp[i]){
+                ans+=1;
             }
         }
-        return dp[n-1];
+      //  return count(dp.begin(),dp.end(),true);
+      return ans;
     }
 };
