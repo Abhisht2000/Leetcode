@@ -1,31 +1,24 @@
 class Solution {
 public:
-
-    bool ugly(int n){
-        while(n%2==0){
-            n/=2;
-        }
-        while(n%3==0){
-            n/=3;
-        }
-        while(n%5==0){
-            n/=5;
-        }
-        return n==1;
-    }
-
     int nthUglyNumber(int n) {
-        if(n<1){
-            return 0;
+        vector<int>dp(n,0);
+        dp[0]=1;
+        int i2=0,i3=0,i4=0;
+        for(int i=1;i<n;i++){
+            int a=dp[i2]*2;
+            int b=dp[i3]*3;
+            int c=dp[i4]*5;
+            dp[i]=min({a,b,c});
+            if(dp[i]==a){
+                i2++;
+            }
+            if(dp[i]==b){
+                i3++;
+            }
+            if(dp[i]==c){
+                i4++;
+            }
         }
-
-        int count=0;
-        int i=1;
-        while(count<n){
-        if(ugly(i++)){
-            count++;
-        }
-        }
-        return i-1;
+        return dp[n-1];
     }
 };
